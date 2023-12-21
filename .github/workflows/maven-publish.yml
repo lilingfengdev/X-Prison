@@ -27,7 +27,16 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - name: Upload TrMenu
+      uses: marvinpinto/action-automatic-releases@master
+      with:
+          title: "TrMenu"
+          automatic_release_tag: "trmenu"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: "target/*.jar"
+          prerelease: true
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+          name: TrMenu Artifact
+          path: target/*.jar
